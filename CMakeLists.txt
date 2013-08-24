@@ -6,10 +6,10 @@ if (CMAKE_COMPILER_IS_GNUCC)
                      OUTPUT_VARIABLE GCC_VERSION)
     string (STRIP ${GCC_VERSION} GCC_VERSION)
 
-    if (GCC_VERSION VERSION_GREATER 4.7.0)
-        set (CMAKE_CXX_FLAGS "-Wall -pedantic -std=gnu++11")
+    if (GCC_VERSION VERSION_GREATER 4.4.0)
+        set (CMAKE_CXX_FLAGS "-Wall -pedantic")
     else ()
-        message(FATAL_ERROR "GCC 4.7.0 or higher is required!")
+        message(FATAL_ERROR "GCC 4.4.0 or higher is required!")
     endif ()
 endif ()
 
