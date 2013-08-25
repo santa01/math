@@ -29,8 +29,6 @@
 #include <cmath>
 #include <algorithm>
 
-namespace Rubik {
-
 namespace Math {
 
 class Mat4 {
@@ -233,7 +231,5 @@ private:
 };
 
 }  // namespace Math
-
-}  // namespace Rubik
 
 #endif  // MAT4_H

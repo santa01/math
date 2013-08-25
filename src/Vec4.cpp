@@ -22,12 +22,8 @@
 
 #include "Vec4.h"
 
-namespace Rubik {
-
 namespace Math {
 
 const Vec4 Vec4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
 }  // namespace Math
-
-}  // namespace Rubik

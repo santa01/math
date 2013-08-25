@@ -22,8 +22,6 @@
 
 #include "Quaternion.h"
 
-namespace Rubik {
-
 namespace Math {
 
 Quaternion Quaternion::operator *(const Quaternion& quaternion) const {
@@ -81,5 +79,3 @@ Mat4 Quaternion::extractMat4() const {
 }
 
 }  // namespace Math
-
-}  // namespace Rubik

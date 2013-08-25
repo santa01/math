@@ -28,8 +28,6 @@
 #include <cmath>
 #include <algorithm>
 
-namespace Rubik {
-
 namespace Math {
 
 class Mat3 {
@@ -217,7 +215,5 @@ private:
 };
 
 }  // namespace Math
-
-}  // namespace Rubik
 
 #endif  // MAT3_H

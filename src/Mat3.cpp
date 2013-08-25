@@ -22,8 +22,6 @@
 
 #include "Mat3.h"
 
-namespace Rubik {
-
 namespace Math {
 
 void Mat3::decompose(Mat3& lower, Mat3& upper) const {
@@ -82,5 +80,3 @@ Mat3& Mat3::invert() {
 }
 
 }  // namespace Math
-
-}  // namespace Rubik

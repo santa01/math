@@ -28,8 +28,6 @@
 
 #include <cmath>
 
-namespace Rubik {
-
 namespace Math {
 
 class Quaternion {
@@ -121,7 +119,5 @@ private:
 };
 
 }  // namespace Math
-
-}  // namespace Rubik
 
 #endif  // QUATERNION_H

@@ -27,8 +27,6 @@
 
 #include <cmath>
 
-namespace Rubik {
-
 namespace Math {
 
 class Vec4 {
@@ -166,7 +164,5 @@ private:
 };
 
 }  // namespace Math
-
-}  // namespace Rubik
 
 #endif  // VEC4_H
