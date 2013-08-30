@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-#include "Mat3.h"
+#include <Mat3.h>
 
 namespace Math {
 

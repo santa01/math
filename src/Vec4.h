@@ -23,8 +23,7 @@
 #ifndef VEC4_H
 #define VEC4_H
 
-#include "Vec3.h"
-
+#include <Vec3.h>
 #include <cmath>
 
 namespace Math {

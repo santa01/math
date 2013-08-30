@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-#include "Quaternion.h"
+#include <Quaternion.h>
 
 namespace Math {
 

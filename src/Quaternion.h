@@ -23,9 +23,8 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include "Vec3.h"
-#include "Mat4.h"
-
+#include <Vec3.h>
+#include <Mat4.h>
 #include <cmath>
 
 namespace Math {

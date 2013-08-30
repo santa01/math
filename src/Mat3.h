@@ -23,8 +23,7 @@
 #ifndef MAT3_H
 #define MAT3_H
 
-#include "Vec3.h"
-
+#include <Vec3.h>
 #include <cmath>
 #include <algorithm>
 
