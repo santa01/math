@@ -34,8 +34,6 @@ namespace Math {
  *          * vector-scalar multiplication (both one and two operand);
  *          * dot and cross product, normalization;
  *          * length, square length calculation.
- *
- *          Per-component and direct data access are available.
  */
 class Vec3 {
 public:
@@ -62,8 +60,7 @@ public:
 
     /*!
      * \brief Per-component constructor.
-     * \details Constructs three component vector initializing components with
-     *          arbitrary values.
+     * \details Constructs three component vector initializing components with arbitrary values.
      * \param x X component.
      * \param y Y component.
      * \param z Z component.
@@ -109,7 +106,8 @@ public:
 
     /*!
      * \brief Vector substruction.
-     * \details Performs per-component vector substruction. Method has a side-effect.
+     * \details Performs per-component vector substruction.
+     * \note Method has a side-effect.
      * \param vector Substructed vector.
      * \return Difference vector.
      */
@@ -122,7 +120,8 @@ public:
 
     /*!
      * \brief Vector addition.
-     * \details Performs per-component vector addition. Method has a side-effect.
+     * \details Performs per-component vector addition.
+     * \note Method has a side-effect.
      * \param vector Summand vector.
      * \return Sum vector.
      */
@@ -135,7 +134,8 @@ public:
 
     /*!
      * \brief Scalar multiplication.
-     * \details Performs per-component scalar multiplication. Method has a side-effect.
+     * \details Performs per-component scalar multiplication.
+     * \note Method has a side-effect.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
@@ -170,7 +170,8 @@ public:
 
     /*!
      * \brief Vector inversion.
-     * \details Performs vector's components sign inversion. Method has a side-effect.
+     * \details Performs vector's components sign inversion.
+     * \note Method has a side-effect.
      * \return Inverted vector.
      */
     Vec3 operator -() const {
@@ -181,8 +182,7 @@ public:
 
     /*!
      * \brief Dot product calculation.
-     * \details Performs vectors' respective components multiplication and further
-     *          multiplication results addition.
+     * \details Multiplies vectors' components and adds the results.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
@@ -194,8 +194,7 @@ public:
 
     /*!
      * \brief Cross product calculation.
-     * \details Performs two vectors' cross product operation defined for right-handed
-     *          coordinate system.
+     * \details Performs two vectors' cross product operation.
      * \param vector Vector mutliplier.
      * \return Vector (cross) product.
      */
@@ -207,8 +206,8 @@ public:
 
     /*!
      * \brief Vector normalization.
-     * \details Performs vector's components division by the vector's length.
-     *          Method has a side-effect.
+     * \details Divides vector's components by the vector's length.
+     * \note Method has a side-effect.
      * \return Normalized (unit) vector.
      */
     Vec3& normalize() {
@@ -221,8 +220,7 @@ public:
 
     /*!
      * \brief Vector's length calculation.
-     * \details Derives vector's length as a square root from vector's components self
-     *          multiplication and results addition.
+     * \details Derives a square root from vector's square length.
      * \return Vector length.
      */
     float length() const {
@@ -231,8 +229,7 @@ public:
 
     /*!
      * \brief Vector's square length calculation.
-     * \details Derives vector's square length as a vector's components self
-     *          multiplication and results addition.
+     * \details Multiplies vector's components by themselves and adds the results.
      * \return Vector square length.
      */
     float squareLength() const {
