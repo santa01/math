@@ -28,7 +28,7 @@
 namespace Math {
 
 /*!
- * \brief Three component vector class.
+ * \brief Three component vector.
  * \details Vec3 implements basic operations that are:
  *          * vector-vector addition, difference (both one and two operand);
  *          * vector-scalar multiplication (both one and two operand);
@@ -50,7 +50,7 @@ public:
 
     /*!
      * \brief Default constructor.
-     * \details Constructs three component vector initializing components with zeros.
+     * \details Constructs zero-length vector.
      */
     Vec3() {
         for (int i = 0; i < 3; i++) {
@@ -60,7 +60,7 @@ public:
 
     /*!
      * \brief Per-component constructor.
-     * \details Constructs three component vector initializing components with arbitrary values.
+     * \details Constructs arbitrary vector based on x, y, z values.
      * \param x X component.
      * \param y Y component.
      * \param z Z component.
@@ -72,9 +72,8 @@ public:
     }
 
     /*!
-     * \brief Vector-vector difference.
-     * \details Performs per-component vector-vector deduction.
-     * \param vector Deducted vector.
+     * \brief Vectors substraction.
+     * \param vector Substructed vector.
      * \return Difference vector.
      */
     Vec3 operator -(const Vec3& vector) const {
@@ -83,8 +82,7 @@ public:
     }
 
     /*!
-     * \brief Vector-vector addition.
-     * \details Performs per-component vector-vector addition.
+     * \brief Vectors addition.
      * \param vector Summand vector.
      * \return Sum vector.
      */
@@ -94,8 +92,7 @@ public:
     }
 
     /*!
-     * \brief Vector-scalar multiplication.
-     * \details Performs per-component vector-scalar multiplication.
+     * \brief Vector by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
@@ -106,10 +103,9 @@ public:
 
     /*!
      * \brief Vector substruction.
-     * \details Performs per-component vector substruction.
-     * \note Method has a side-effect.
      * \param vector Substructed vector.
      * \return Difference vector.
+     * \note Method has a side-effect.
      */
     Vec3& operator -=(const Vec3& vector) {
         this->vector[X] -= vector.get(X);
@@ -120,10 +116,9 @@ public:
 
     /*!
      * \brief Vector addition.
-     * \details Performs per-component vector addition.
-     * \note Method has a side-effect.
      * \param vector Summand vector.
      * \return Sum vector.
+     * \note Method has a side-effect.
      */
     Vec3& operator +=(const Vec3& vector) {
         this->vector[X] += vector.get(X);
@@ -134,10 +129,9 @@ public:
 
     /*!
      * \brief Scalar multiplication.
-     * \details Performs per-component scalar multiplication.
-     * \note Method has a side-effect.
      * \param scalar Scalar multiplier.
      * \return Product vector.
+     * \note Method has a side-effect.
      */
     Vec3& operator *=(float scalar) {
         this->vector[X] *= scalar;
@@ -147,8 +141,7 @@ public:
     }
 
     /*!
-     * \brief Vectors comparsion.
-     * \details Performs per-component vector-vector comparsion.
+     * \brief Vectors equalty check.
      * \param vector Compared vector.
      * \return true if vectors are equal, false otherwise.
      */
@@ -159,8 +152,7 @@ public:
     }
 
     /*!
-     * \brief Vectors inequality check.
-     * \details Performs per-component vector-vector comparsion.
+     * \brief Vectors inequalty check.
      * \param vector Compared vector.
      * \return false if vectors are equal, true otherwise.
      */
@@ -170,9 +162,8 @@ public:
 
     /*!
      * \brief Vector inversion.
-     * \details Performs vector's components sign inversion.
-     * \note Method has a side-effect.
      * \return Inverted vector.
+     * \note Method has a side-effect.
      */
     Vec3 operator -() const {
         return Vec3(-this->vector[X],
@@ -182,7 +173,6 @@ public:
 
     /*!
      * \brief Dot product calculation.
-     * \details Multiplies vectors' components and adds the results.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
@@ -194,7 +184,6 @@ public:
 
     /*!
      * \brief Cross product calculation.
-     * \details Performs two vectors' cross product operation.
      * \param vector Vector mutliplier.
      * \return Vector (cross) product.
      */
@@ -206,9 +195,8 @@ public:
 
     /*!
      * \brief Vector normalization.
-     * \details Divides vector's components by the vector's length.
-     * \note Method has a side-effect.
      * \return Normalized (unit) vector.
+     * \note Method has a side-effect.
      */
     Vec3& normalize() {
         float length = this->length();
@@ -220,7 +208,6 @@ public:
 
     /*!
      * \brief Vector's length calculation.
-     * \details Derives a square root from vector's square length.
      * \return Vector length.
      */
     float length() const {
@@ -229,7 +216,6 @@ public:
 
     /*!
      * \brief Vector's square length calculation.
-     * \details Multiplies vector's components by themselves and adds the results.
      * \return Vector square length.
      */
     float squareLength() const {
@@ -239,10 +225,10 @@ public:
     }
 
     /*!
-     * \brief Vector's components selector.
-     * \details Gets vector components' values by their indexes. See X, Y, Z.
+     * \brief Vector's component selector.
      * \param index Component's index.
-     * \return Component value.
+     * \return Component's value.
+     * \note You are advised to use X, Y, Z constants as indices.
      */
     float get(int index) const {
         switch (index) {
@@ -257,10 +243,10 @@ public:
     }
 
     /*!
-     * \brief Vector's components mutator.
-     * \details Sets vector components' values. See X, Y, Z.
+     * \brief Vector's component mutator.
      * \param index Component's index.
      * \param value Component's new value.
+     * \note You are advised to use X, Y, Z constants as indices.
      */
     void set(int index, float value) {
         switch (index) {
@@ -274,7 +260,6 @@ public:
 
     /*!
      * \brief Vector's data accessor.
-     * \details Gets a constant pointer to vector's data array.
      * \return Vector's data pointer.
      */
     const float* data() const  {
