@@ -74,7 +74,7 @@ public:
 
     /*!
      * \brief Vec3-based constructor.
-     * \details Constructs arbitrary vector initializing X, Y, Z components
+     * \details Constructs arbitrary vector initializing x, y, z components
      *          from Vec3 vector and W component based on w value.
      * \param vector Source three component vector.
      * \param w W component.
@@ -207,7 +207,7 @@ public:
      * \brief Vector's component selector.
      * \param index Component's index.
      * \return Component's value.
-     * \note You are advised to use X, Y, Z, W constants as indices.
+     * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
     float get(int index) const {
         switch (index) {
@@ -226,7 +226,7 @@ public:
      * \brief Vector's component mutator.
      * \param index Component's index.
      * \param value Component's new value.
-     * \note You are advised to use X, Y, Z, W constants as indices.
+     * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
     void set(int index, float value) {
         switch (index) {
@@ -249,7 +249,7 @@ public:
 
     /*!
      * \brief Vec3 vector extraction.
-     * \details Composes Vec3 from X, Y, Z Vec4 components.
+     * \details Composes Vec3 from x, y, z Vec4 components.
      * \return Three dimentional vector.
      */
     Vec3 extractVec3() const {

@@ -228,7 +228,7 @@ public:
      * \brief Vector's component selector.
      * \param index Component's index.
      * \return Component's value.
-     * \note You are advised to use X, Y, Z constants as indices.
+     * \note You are advised to use #X, #Y, #Z constants as indices.
      */
     float get(int index) const {
         switch (index) {
@@ -246,7 +246,7 @@ public:
      * \brief Vector's component mutator.
      * \param index Component's index.
      * \param value Component's new value.
-     * \note You are advised to use X, Y, Z constants as indices.
+     * \note You are advised to use #X, #Y, #Z constants as indices.
      */
     void set(int index, float value) {
         switch (index) {
