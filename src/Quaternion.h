@@ -29,15 +29,26 @@
 
 namespace Math {
 
+/*!
+ * \brief %Quaternion representation.
+ * \details Quaternion implements basic operations that are:
+ *          * multiplication;
+ *          * normalization;
+ *          * euler angles and Mat4 rotation matrix extraction.
+ */
 class Quaternion {
 public:
     enum {
-        X = 0,
-        Y = 1,
-        Z = 2,
-        W = 3
+        X = 0,  /*!< X component index. */
+        Y = 1,  /*!< Y component index. */
+        Z = 2,  /*!< Z component index. */
+        W = 3   /*!< W component index. */
     };
 
+    /*!
+     * \brief Default constructor.
+     * \details Constructs a unit quaternion initializing every but W component with zero.
+     */
     Quaternion() {
         this->vector[X] = 0.0f;
         this->vector[Y] = 0.0f;
@@ -45,6 +56,14 @@ public:
         this->vector[W] = 1.0f;
     }
 
+    /*!
+     * \brief Per-component constructor.
+     * \details Constructs arbitrary quaternion based on x, y, z, w values.
+     * \param x X component.
+     * \param y Y component.
+     * \param z Z component.
+     * \param w W component.
+     */
     Quaternion(float x, float y, float z, float w) {
         this->vector[X] = x;
         this->vector[Y] = y;
@@ -52,6 +71,12 @@ public:
         this->vector[W] = w;
     }
 
+    /*!
+     * \brief Axis-angle based constructor.
+     * \details Constructs a quaternion describing arbitrary rotation around axis vector on angle radians.
+     * \param axis Rotation axis vector.
+     * \param angle Rotation angle in radians.
+     */
     Quaternion(const Vec3& axis, float angle) {
         float sinAngle = sinf(angle / 2);
 
@@ -61,8 +86,18 @@ public:
         this->vector[W] = cosf(angle / 2);
     }
 
-    Quaternion operator *(const Quaternion& quaternmion) const;
+    /*!
+     * \brief Quaternions multiplication.
+     * \param quaternion %Quaternion multiplier.
+     * \return Product quaternion.
+     */
+    Quaternion operator *(const Quaternion& quaternion) const;
 
+    /*!
+     * \brief %Quaternion normalization.
+     * \return Normalized quaternion.
+     * \note Method has a side-effect.
+     */
     Quaternion& normalize() {
         float length = this->length();
         this->vector[X] /= length;
@@ -72,6 +107,10 @@ public:
         return *this;
     }
 
+    /*!
+     * \brief %Quaternion's length calculation.
+     * \return %Quaternion length.
+     */
     float length() const {
         return sqrtf(this->vector[X] * this->vector[X] +
                      this->vector[Y] * this->vector[Y] +
@@ -79,6 +118,12 @@ public:
                      this->vector[W] * this->vector[W]);
     }
 
+    /*!
+     * \brief %Quaternion's component selector.
+     * \param index Component's index.
+     * \return Component's value.
+     * \note You are advised to use #X, #Y, #Z, #W constants as indices.
+     */
     float get(int index) const {
         switch (index) {
             case X:
@@ -92,6 +137,12 @@ public:
         }
     }
 
+    /*!
+     * \brief %Quaternion's component mutator.
+     * \param index Component's index.
+     * \param value Component's new value.
+     * \note You are advised to use #X, #Y, #Z, #W constants as indices.
+     */
     void set(int index, float value) {
         switch (index) {
             case X:
@@ -103,9 +154,21 @@ public:
         }
     }
 
+    /*!
+     * \brief Mat4 matrix extraction.
+     * \details Composes Mat4 rotation matrix.
+     * \return 4x4 two dimetional matrix.
+     */
     Mat4 extractMat4() const;
 
-    void extractEulerAgngles(float& xAngle, float& yAngle, float& zAngle) const {
+    /*!
+     * \brief Euler angles extraction.
+     * \details Derives roll, yaw, pitch angle values in radians.
+     * \param xAngle Rotation angle around X axis.
+     * \param yAngle Rotation angle around Y axis.
+     * \param zAngle Rotation angle around Z axis.
+     */
+    void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const {
         xAngle = asinf(2 * (this->vector[X] * this->vector[Y] + this->vector[Z] * this->vector[W]));
         yAngle = atan2f(2 * (this->vector[Y] * this->vector[W] - this->vector[X] * this->vector[Z]),
                         1 - 2 * (this->vector[Y] * this->vector[Y] - this->vector[Z] * this->vector[Z]));
