@@ -99,7 +99,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 INPUT                  = "@CMAKE_SOURCE_DIR@/src"
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.h
+FILE_PATTERNS          = *.h *.cpp
 RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
