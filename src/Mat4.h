@@ -30,8 +30,19 @@
 
 namespace Math {
 
+/*!
+ * \brief 4x4 two dimentional matrix.
+ * \details Mat4 implements basic operations that are:
+ *          * matrix-matrix addition, difference, multiplication;
+ *          * matrix-vector multiplication;
+ *          * transposition, LU decomposition, inversion.
+ */
 class Mat4 {
 public:
+    /*!
+     * \brief Default constructor.
+     * \details Constructs the identity matrix.
+     */
     Mat4() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -45,6 +56,11 @@ public:
         this->matrix[3][3] = 1.0f;
     }
 
+    /*!
+     * \brief Matrices multiplication.
+     * \param matrix Matrix multiplier.
+     * \return Product matrix.
+     */
     Mat4 operator *(const Mat4& matrix) const {
         Mat4 result;
 
@@ -60,6 +76,11 @@ public:
         return result;
     }
 
+    /*!
+     * \brief Matrix by vector multiplication.
+     * \param vector Vector multiplier.
+     * \return Product vector.
+     */
     Vec4 operator *(const Vec4& vector) const {
         Vec4 result;
 
@@ -73,6 +94,11 @@ public:
         return result;
     }
 
+    /*!
+     * \brief Matrix by scalar multiplication.
+     * \param scalar Scalar multiplier.
+     * \return Product matrix.
+     */
     Mat4 operator *(float scalar) const {
         Mat4 result;
 
@@ -85,6 +111,11 @@ public:
         return result;
     }
 
+    /*!
+     * \brief Matrices addition.
+     * \param matrix Summand matrix.
+     * \return Sum matrix.
+     */
     Mat4 operator +(const Mat4& matrix) const {
         Mat4 result;
 
@@ -97,6 +128,11 @@ public:
         return result;
     }
 
+    /*!
+     * \brief Matrices substraction.
+     * \param matrix Substracted matrix.
+     * \return Difference matrix.
+     */
     Mat4 operator -(const Mat4& matrix) const {
         Mat4 result;
 
@@ -109,6 +145,11 @@ public:
         return result;
     }
 
+    /*!
+     * \brief Matrices equalty check.
+     * \param matrix Compared matrix.
+     * \return true if matrices are equal, false otherwise.
+     */
     bool operator ==(const Mat4& matrix) const {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -121,43 +162,65 @@ public:
         return true;
     }
 
+    /*!
+     * \brief Matrices inequalty check.
+     * \param matrix Compared matrix.
+     * \return false if matrices are equal, true otherwise.
+     */
     bool operator !=(const Mat4& matrix) const {
         return !(*this == matrix);
     }
 
-    void transpose() {
+    /*!
+     * \brief Matrix transposition.
+     * \return Transposed matrix.
+     * \note Method has a side-effect.
+     */
+    Mat4& transpose() {
         for (int i = 0; i < 3; i++) {
             for (int j = i + 1; j < 4; j++) {
                 std::swap(this->matrix[j][i], this->matrix[i][j]);
             }
         }
+
+        return *this;
     }
 
-    /*
-     * Doolitle LU decomposition method
-     * References:
-     *   http://www.engr.colostate.edu/~thompson/hPage/CourseMat/Tutorials/CompMethods/doolittle.pdf
-     *   https://vismor.com/documents/network_analysis/matrix_algorithms/S4.SS2.php
-     *   http://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
+    /*!
+     * \brief Matrix LU decomposition.
+     * \details This method implements doolitle LU decomposition argorithm. References:
+     *           * http://www.engr.colostate.edu/~thompson/hPage/CourseMat/Tutorials/CompMethods/doolittle.pdf
+     *           * https://vismor.com/documents/network_analysis/matrix_algorithms/S4.SS2.php
+     *           * http://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
+     *
+     * \param lower Lower triangular matrix.
+     * \param upper Upper triangular matrix.
      */
     void decompose(Mat4& lower, Mat4& upper) const;
 
-    /*
-     * Finds inverse matrix by LU-decomposition and further equation solving:
-     * L * Z = I
-     * U * X = Z
-     * L * U * X = I
-     * where:
-     *   L and U are lower and upper triangular matrices got by Mat3::decompose(),
-     *   X and I are respective columns of inverse and identity matrices.
+    /*!
+     * \brief Matrix inversion.
+     * \details This methos finds inverse matrix by LU-decomposition and further equation solving:
+     *           -# L * Z = I
+     *           -# U * X = Z
+     *           -# L * U * X = I
+     *
+     *           Where:
+     *            * L and U are lower and upper triangular matrices got by decompose(),
+     *            * X and I are respective columns of inverse and identity matrices.
+     *
+     * \return Inverted matrix.
      */
     Mat4& invert();
 
-    /*
-     * Performs forward substitution for lower triangular marix.
-     * Matrix is assumed to be triangular, no check is performed.
-     * References:
-     *   http://en.wikipedia.org/wiki/Triangular_matrix#Forward_substitution
+    /*!
+     * \brief Solve matrix equation with a lower triangular matrix.
+     * \details Performs forward substitution for lower triangular marix. References:
+     *           * http://en.wikipedia.org/wiki/Triangular_matrix#Forward_and_back_substitution
+     *
+     * \param absolute Vector of absolute values.
+     * \return Vector of unknown values.
+     * \note Matrix is assumed to be triangular, no check is performed.
      */
     Vec4 solveL(const Vec4& absolute) const {
         Vec4 solution;
@@ -173,11 +236,14 @@ public:
         return solution;
     }
 
-    /*
-     * Performs backward substitution for upper triangular marix.
-     * Matrix is assumed to be triangular, no check is performed.
-     * References:
-     *   http://en.wikipedia.org/wiki/Triangular_matrix#Forward_substitution
+    /*!
+     * \brief Solve matrix equation with an upper triangular matrix.
+     * \details Performs backward substitution for upper triangular marix. References:
+     *           * http://en.wikipedia.org/wiki/Triangular_matrix#Forward_and_back_substitution
+     *
+     * \param absolute Vector of absolute values.
+     * \return Vector of unknown values.
+     * \note Matrix is assumed to be triangular, no check is performed.
      */
     Vec4 solveU(const Vec4& absolute) const {
         Vec4 solution;
@@ -193,6 +259,12 @@ public:
         return solution;
     }
 
+    /*!
+     * \brief Matrix's element selector.
+     * \param row Element's row.
+     * \param column Element's column.
+     * \return Element's value.
+     */
     float get(int row, int column) const {
         if (column < 0 || column > 3 || row < 0 || row > 3) {
             return NAN;
@@ -201,6 +273,12 @@ public:
         return this->matrix[row][column];
     }
 
+    /*!
+     * \brief Matrix's element mutator.
+     * \param row Element's row.
+     * \param column Element's column.
+     * \param value Element's new value.
+     */
     void set(int row, int column, float value) {
         if (column < 0 || column > 3 || row < 0 || row > 3) {
             return;
@@ -209,10 +287,19 @@ public:
         this->matrix[row][column] = value;
     }
 
+    /*!
+     * \brief Matrix's data accessor.
+     * \return Matrix's data pointer.
+     */
     const float* data() const  {
         return (float*)&this->matrix;
     }
 
+    /*!
+     * \brief Mat3 matrix extraction.
+     * \details Composes Mat3 from first three rows and columns.
+     * \return 3x3 two dimetional matrix.
+     */
     Mat3 extractMat3() const {
         Mat3 result;
 
