@@ -26,6 +26,7 @@
 #include <Mat3.h>
 #include <Vec4.h>
 #include <cmath>
+#include <cassert>
 #include <algorithm>
 
 namespace Math {
@@ -266,10 +267,8 @@ public:
      * \return Element's value.
      */
     float get(int row, int column) const {
-        if (column < 0 || column > 3 || row < 0 || row > 3) {
-            return NAN;
-        }
-
+        assert(row >= 0 && row <= 3);
+        assert(column >= 0 && column <= 3);
         return this->matrix[row][column];
     }
 
@@ -280,10 +279,8 @@ public:
      * \param value Element's new value.
      */
     void set(int row, int column, float value) {
-        if (column < 0 || column > 3 || row < 0 || row > 3) {
-            return;
-        }
-
+        assert(row >= 0 && row <= 3);
+        assert(column >= 0 && column <= 3);
         this->matrix[row][column] = value;
     }
 

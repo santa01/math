@@ -26,6 +26,7 @@
 #include <Vec3.h>
 #include <Mat4.h>
 #include <cmath>
+#include <cassert>
 
 namespace Math {
 
@@ -125,16 +126,8 @@ public:
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
     float get(int index) const {
-        switch (index) {
-            case X:
-            case Y:
-            case Z:
-            case W:
-                return this->vector[index];
-
-            default:
-                return NAN;
-        }
+        assert(index >= X && index <= W);
+        return this->vector[index];
     }
 
     /*!
@@ -144,14 +137,8 @@ public:
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
     void set(int index, float value) {
-        switch (index) {
-            case X:
-            case Y:
-            case Z:
-            case W:
-                this->vector[index] = value;
-                break;
-        }
+        assert(index >= X && index <= W);
+        this->vector[index] = value;
     }
 
     /*!
