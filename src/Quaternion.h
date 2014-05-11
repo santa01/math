@@ -156,11 +156,11 @@ public:
      * \param zAngle Rotation angle around Z axis.
      */
     void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const {
-        xAngle = asinf(2 * (this->vector[X] * this->vector[Y] + this->vector[Z] * this->vector[W]));
+        xAngle = atan2f(2 * (this->vector[X] * this->vector[W] - this->vector[Y] * this->vector[Z]),
+                        1 - 2 * (this->vector[X] * this->vector[X] - this->vector[Z] * this->vector[Z]));
         yAngle = atan2f(2 * (this->vector[Y] * this->vector[W] - this->vector[X] * this->vector[Z]),
                         1 - 2 * (this->vector[Y] * this->vector[Y] - this->vector[Z] * this->vector[Z]));
-        zAngle = atan2f(2 * (this->vector[X] * this->vector[W] - this->vector[Y] * this->vector[Z]),
-                        1 - 2 * (this->vector[X] * this->vector[X] - this->vector[Z] * this->vector[Z]));
+        zAngle = asinf(2 * (this->vector[X] * this->vector[Y] + this->vector[Z] * this->vector[W]));
     }
 
 private:
