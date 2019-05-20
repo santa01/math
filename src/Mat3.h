@@ -23,13 +23,11 @@
 #ifndef MAT3_H
 #define MAT3_H
 
-#include <Vec3.h>
 #include <Platform.h>
-#include <cmath>
-#include <cassert>
-#include <algorithm>
 
 namespace Math {
+
+class Vec3;
 
 /*!
  * \brief 3x3 two dimentional matrix.
@@ -44,145 +42,63 @@ public:
      * \brief Default constructor.
      * \details Constructs the identity matrix.
      */
-    Mat3() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                this->matrix[i][j] = 0.0f;
-            }
-        }
-
-        this->matrix[0][0] = 1.0f;
-        this->matrix[1][1] = 1.0f;
-        this->matrix[2][2] = 1.0f;
-    }
+    Mat3();
 
     /*!
      * \brief Matrices multiplication.
      * \param matrix Matrix multiplier.
      * \return Product matrix.
      */
-    Mat3 operator *(const Mat3& matrix) const {
-        Mat3 result;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result.set(i, j, this->matrix[i][0] * matrix.get(0, j) +
-                                 this->matrix[i][1] * matrix.get(1, j) +
-                                 this->matrix[i][2] * matrix.get(2, j));
-            }
-        }
-
-        return result;
-    }
+    Mat3 operator *(const Mat3& matrix) const;
 
     /*!
      * \brief Matrix by vector multiplication.
      * \param vector Vector multiplier.
      * \return Product vector.
      */
-    Vec3 operator *(const Vec3& vector) const {
-        Vec3 result;
-
-        for (int i = 0; i < 3; i++) {
-            result.set(i, this->matrix[i][0] * vector.get(Vec3::X) +
-                          this->matrix[i][1] * vector.get(Vec3::Y) +
-                          this->matrix[i][2] * vector.get(Vec3::Z));
-        }
-
-        return result;
-    }
+    Vec3 operator *(const Vec3& vector) const;
 
     /*!
      * \brief Matrix by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product matrix.
      */
-    Mat3 operator *(float scalar) const {
-        Mat3 result;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result.set(i, j, this->matrix[i][j] * scalar);
-            }
-        }
-
-        return result;
-    }
+    Mat3 operator *(float scalar) const;
 
     /*!
      * \brief Matrices addition.
      * \param matrix Summand matrix.
      * \return Sum matrix.
      */
-    Mat3 operator +(const Mat3& matrix) const {
-        Mat3 result;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result.set(i, j, this->matrix[i][j] + matrix.get(i, j));
-            }
-        }
-
-        return result;
-    }
+    Mat3 operator +(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices substraction.
      * \param matrix Substracted matrix.
      * \return Difference matrix.
      */
-    Mat3 operator -(const Mat3& matrix) const {
-        Mat3 result;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result.set(i, j, this->matrix[i][j] - matrix.get(i, j));
-            }
-        }
-
-        return result;
-    }
+    Mat3 operator -(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices equalty check.
      * \param matrix Compared matrix.
      * \return true if matrices are equal, false otherwise.
      */
-    bool operator ==(const Mat3& matrix) const {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (this->matrix[i][j] != matrix.get(i, j)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+    bool operator ==(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices inequalty check.
      * \param matrix Compared matrix.
      * \return false if matrices are equal, true otherwise.
      */
-    bool operator !=(const Mat3& matrix) const {
-        return !(*this == matrix);
-    }
+    bool operator !=(const Mat3& matrix) const;
 
     /*!
      * \brief Matrix transposition.
      * \return Transposed matrix.
      * \note Method has a side-effect.
      */
-    Mat3& transpose() {
-        for (int i = 0; i < 2; i++) {
-            for (int j = i + 1; j < 3; j++) {
-                std::swap(this->matrix[j][i], this->matrix[i][j]);
-            }
-        }
-
-        return *this;
-    }
+    Mat3& transpose();
 
     /*!
      * \brief Matrix LU decomposition.
@@ -220,19 +136,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec3 solveL(const Vec3& absolute) const {
-        Vec3 solution;
-
-        for (int i = 0; i < 3; i++) {
-            solution.set(i, absolute.get(i));
-            for (int j = 0; j < i; j++) {
-                solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
-            }
-            solution.set(i, solution.get(i) / this->matrix[i][i]);
-        }
-
-        return solution;
-    }
+    Vec3 solveL(const Vec3& absolute) const;
 
     /*!
      * \brief Solve matrix equation with an upper triangular matrix.
@@ -243,19 +147,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec3 solveU(const Vec3& absolute) const {
-        Vec3 solution;
-
-        for (int i = 2; i > -1; i--) {
-            solution.set(i, absolute.get(i));
-            for (int j = 2; j > i; j--) {
-                solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
-            }
-            solution.set(i, solution.get(i) / this->matrix[i][i]);
-        }
-
-        return solution;
-    }
+    Vec3 solveU(const Vec3& absolute) const;
 
     /*!
      * \brief Matrix's element selector.
@@ -263,11 +155,7 @@ public:
      * \param column Element's column.
      * \return Element's value.
      */
-    float get(int row, int column) const {
-        assert(row >= 0 && row <= 2);
-        assert(column >= 0 && column <= 2);
-        return this->matrix[row][column];
-    }
+    float get(int row, int column) const;
 
     /*!
      * \brief Matrix's element mutator.
@@ -275,19 +163,13 @@ public:
      * \param column Element's column.
      * \param value Element's new value.
      */
-    void set(int row, int column, float value) {
-        assert(row >= 0 && row <= 2);
-        assert(column >= 0 && column <= 2);
-        this->matrix[row][column] = value;
-    }
+    void set(int row, int column, float value);
 
     /*!
      * \brief Matrix's data accessor.
      * \return Matrix's data pointer.
      */
-    const float* data() const  {
-        return (float*)&this->matrix;
-    }
+    const float* data() const;
 
 private:
     float matrix[3][3];

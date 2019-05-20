@@ -23,14 +23,12 @@
 #ifndef MAT4_H
 #define MAT4_H
 
-#include <Mat3.h>
-#include <Vec4.h>
 #include <Platform.h>
-#include <cmath>
-#include <cassert>
-#include <algorithm>
 
 namespace Math {
+
+class Mat3;
+class Vec4;
 
 /*!
  * \brief 4x4 two dimentional matrix.
@@ -45,148 +43,62 @@ public:
      * \brief Default constructor.
      * \details Constructs the identity matrix.
      */
-    Mat4() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                this->matrix[i][j] = 0.0f;
-            }
-        }
-
-        this->matrix[0][0] = 1.0f;
-        this->matrix[1][1] = 1.0f;
-        this->matrix[2][2] = 1.0f;
-        this->matrix[3][3] = 1.0f;
-    }
+    Mat4();
 
     /*!
      * \brief Matrices multiplication.
      * \param matrix Matrix multiplier.
      * \return Product matrix.
      */
-    Mat4 operator *(const Mat4& matrix) const {
-        Mat4 result;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                result.set(i, j, this->matrix[i][0] * matrix.get(0, j) +
-                                 this->matrix[i][1] * matrix.get(1, j) +
-                                 this->matrix[i][2] * matrix.get(2, j) +
-                                 this->matrix[i][3] * matrix.get(3, j));
-            }
-        }
-
-        return result;
-    }
+    Mat4 operator *(const Mat4& matrix) const;
 
     /*!
      * \brief Matrix by vector multiplication.
      * \param vector Vector multiplier.
      * \return Product vector.
      */
-    Vec4 operator *(const Vec4& vector) const {
-        Vec4 result;
-
-        for (int i = 0; i < 4; i++) {
-            result.set(i, this->matrix[i][0] * vector.get(Vec4::X) +
-                          this->matrix[i][1] * vector.get(Vec4::Y) +
-                          this->matrix[i][2] * vector.get(Vec4::Z) +
-                          this->matrix[i][3] * vector.get(Vec4::W));
-        }
-
-        return result;
-    }
+    Vec4 operator *(const Vec4& vector) const;
 
     /*!
      * \brief Matrix by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product matrix.
      */
-    Mat4 operator *(float scalar) const {
-        Mat4 result;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                result.set(i, j, this->matrix[i][j] * scalar);
-            }
-        }
-
-        return result;
-    }
+    Mat4 operator *(float scalar) const;
 
     /*!
      * \brief Matrices addition.
      * \param matrix Summand matrix.
      * \return Sum matrix.
      */
-    Mat4 operator +(const Mat4& matrix) const {
-        Mat4 result;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                result.set(i, j, this->matrix[i][j] + matrix.get(i, j));
-            }
-        }
-
-        return result;
-    }
-
+    Mat4 operator +(const Mat4& matrix) const;
     /*!
      * \brief Matrices substraction.
      * \param matrix Substracted matrix.
      * \return Difference matrix.
      */
-    Mat4 operator -(const Mat4& matrix) const {
-        Mat4 result;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                result.set(i, j, this->matrix[i][j] - matrix.get(i, j));
-            }
-        }
-
-        return result;
-    }
+    Mat4 operator -(const Mat4& matrix) const;
 
     /*!
      * \brief Matrices equalty check.
      * \param matrix Compared matrix.
      * \return true if matrices are equal, false otherwise.
      */
-    bool operator ==(const Mat4& matrix) const {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (this->matrix[i][j] != matrix.get(i, j)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+    bool operator ==(const Mat4& matrix) const;
 
     /*!
      * \brief Matrices inequalty check.
      * \param matrix Compared matrix.
      * \return false if matrices are equal, true otherwise.
      */
-    bool operator !=(const Mat4& matrix) const {
-        return !(*this == matrix);
-    }
+    bool operator !=(const Mat4& matrix) const;
 
     /*!
      * \brief Matrix transposition.
      * \return Transposed matrix.
      * \note Method has a side-effect.
      */
-    Mat4& transpose() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = i + 1; j < 4; j++) {
-                std::swap(this->matrix[j][i], this->matrix[i][j]);
-            }
-        }
-
-        return *this;
-    }
+    Mat4& transpose();
 
     /*!
      * \brief Matrix LU decomposition.
@@ -224,19 +136,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec4 solveL(const Vec4& absolute) const {
-        Vec4 solution;
-
-        for (int i = 0; i < 4; i++) {
-            solution.set(i, absolute.get(i));
-            for (int j = 0; j < i; j++) {
-                solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
-            }
-            solution.set(i, solution.get(i) / this->matrix[i][i]);
-        }
-
-        return solution;
-    }
+    Vec4 solveL(const Vec4& absolute) const;
 
     /*!
      * \brief Solve matrix equation with an upper triangular matrix.
@@ -247,19 +147,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec4 solveU(const Vec4& absolute) const {
-        Vec4 solution;
-
-        for (int i = 3; i > -1; i--) {
-            solution.set(i, absolute.get(i));
-            for (int j = 3; j > i; j--) {
-                solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
-            }
-            solution.set(i, solution.get(i) / this->matrix[i][i]);
-        }
-
-        return solution;
-    }
+    Vec4 solveU(const Vec4& absolute) const;
 
     /*!
      * \brief Matrix's element selector.
@@ -267,11 +155,7 @@ public:
      * \param column Element's column.
      * \return Element's value.
      */
-    float get(int row, int column) const {
-        assert(row >= 0 && row <= 3);
-        assert(column >= 0 && column <= 3);
-        return this->matrix[row][column];
-    }
+    float get(int row, int column) const;
 
     /*!
      * \brief Matrix's element mutator.
@@ -279,36 +163,20 @@ public:
      * \param column Element's column.
      * \param value Element's new value.
      */
-    void set(int row, int column, float value) {
-        assert(row >= 0 && row <= 3);
-        assert(column >= 0 && column <= 3);
-        this->matrix[row][column] = value;
-    }
+    void set(int row, int column, float value);
 
     /*!
      * \brief Matrix's data accessor.
      * \return Matrix's data pointer.
      */
-    const float* data() const  {
-        return (float*)&this->matrix;
-    }
+    const float* data() const;
 
     /*!
      * \brief Mat3 matrix extraction.
      * \details Composes Mat3 from first three rows and columns.
      * \return 3x3 two dimetional matrix.
      */
-    Mat3 extractMat3() const {
-        Mat3 result;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result.set(i, j, this->matrix[i][j]);
-            }
-        }
-
-        return result;
-    }
+    Mat3 extractMat3() const;
 
 private:
     float matrix[4][4];

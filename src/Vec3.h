@@ -24,8 +24,6 @@
 #define VEC3_H
 
 #include <Platform.h>
-#include <cmath>
-#include <cassert>
 
 namespace Math {
 
@@ -54,11 +52,7 @@ public:
      * \brief Default constructor.
      * \details Constructs zero-length vector.
      */
-    Vec3() {
-        for (int i = 0; i < 3; i++) {
-            this->vector[i] = 0.0f;
-        }
-    }
+    Vec3();
 
     /*!
      * \brief Per-component constructor.
@@ -67,41 +61,28 @@ public:
      * \param y Y component.
      * \param z Z component.
      */
-    Vec3(float x, float y, float z) {
-        this->vector[X] = x;
-        this->vector[Y] = y;
-        this->vector[Z] = z;
-    }
+    Vec3(float x, float y, float z);
 
     /*!
      * \brief Vectors substraction.
      * \param vector Substructed vector.
      * \return Difference vector.
      */
-    Vec3 operator -(const Vec3& vector) const {
-        Vec3 me(*this);
-        return me -= vector;
-    }
+    Vec3 operator -(const Vec3& vector) const;
 
     /*!
      * \brief Vectors addition.
      * \param vector Summand vector.
      * \return Sum vector.
      */
-    Vec3 operator +(const Vec3& vector) const {
-        Vec3 me(*this);
-        return me += vector;
-    }
+    Vec3 operator +(const Vec3& vector) const;
 
     /*!
      * \brief Vector by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
-    Vec3 operator *(float scalar) const {
-        Vec3 me(*this);
-        return me *= scalar;
-    }
+    Vec3 operator *(float scalar) const;
 
     /*!
      * \brief Vector substruction.
@@ -109,12 +90,7 @@ public:
      * \return Difference vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator -=(const Vec3& vector) {
-        this->vector[X] -= vector.get(X);
-        this->vector[Y] -= vector.get(Y);
-        this->vector[Z] -= vector.get(Z);
-        return *this;
-    }
+    Vec3& operator -=(const Vec3& vector);
 
     /*!
      * \brief Vector addition.
@@ -122,12 +98,7 @@ public:
      * \return Sum vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator +=(const Vec3& vector) {
-        this->vector[X] += vector.get(X);
-        this->vector[Y] += vector.get(Y);
-        this->vector[Z] += vector.get(Z);
-        return *this;
-    }
+    Vec3& operator +=(const Vec3& vector);
 
     /*!
      * \brief Scalar multiplication.
@@ -135,96 +106,61 @@ public:
      * \return Product vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator *=(float scalar) {
-        this->vector[X] *= scalar;
-        this->vector[Y] *= scalar;
-        this->vector[Z] *= scalar;
-        return *this;
-    }
+    Vec3& operator *=(float scalar);
 
     /*!
      * \brief Vectors equalty check.
      * \param vector Compared vector.
      * \return true if vectors are equal, false otherwise.
      */
-    bool operator ==(const Vec3& vector) const {
-        return (this->vector[X] == vector.get(X)) &&
-               (this->vector[Y] == vector.get(Y)) &&
-               (this->vector[Z] == vector.get(Z));
-    }
+    bool operator ==(const Vec3& vector) const;
 
     /*!
      * \brief Vectors inequalty check.
      * \param vector Compared vector.
      * \return false if vectors are equal, true otherwise.
      */
-    bool operator !=(const Vec3& vector) const {
-        return !(*this == vector);
-    }
+    bool operator !=(const Vec3& vector) const;
 
     /*!
      * \brief Vector inversion.
      * \return Inverted vector.
      * \note Method has a side-effect.
      */
-    Vec3 operator -() const {
-        return Vec3(-this->vector[X],
-                    -this->vector[Y],
-                    -this->vector[Z]);
-    }
+    Vec3 operator -() const;
 
     /*!
      * \brief Dot product calculation.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
-    float dot(const Vec3& vector) const {
-        return this->vector[X] * vector.get(X) +
-               this->vector[Y] * vector.get(Y) +
-               this->vector[Z] * vector.get(Z);
-    }
+    float dot(const Vec3& vector) const;
 
     /*!
      * \brief Cross product calculation.
      * \param vector Vector mutliplier.
      * \return Vector (cross) product.
      */
-    Vec3 cross(const Vec3& vector) const {
-        return Vec3(this->vector[Y] * vector.get(Z) - this->vector[Z] * vector.get(Y),
-                    this->vector[Z] * vector.get(X) - this->vector[X] * vector.get(Z),
-                    this->vector[X] * vector.get(Y) - this->vector[Y] * vector.get(X));
-    }
+    Vec3 cross(const Vec3& vector) const;
 
     /*!
      * \brief Vector normalization.
      * \return Normalized (unit) vector.
      * \note Method has a side-effect.
      */
-    Vec3& normalize() {
-        float length = this->length();
-        this->vector[X] /= length;
-        this->vector[Y] /= length;
-        this->vector[Z] /= length;
-        return *this;
-    }
+    Vec3& normalize();
 
     /*!
      * \brief Vector's length calculation.
      * \return Vector length.
      */
-    float length() const {
-        return sqrtf(this->squareLength());
-    }
+    float length() const;
 
     /*!
      * \brief Vector's square length calculation.
      * \return Vector square length.
      */
-    float squareLength() const {
-        return this->vector[X] * this->vector[X] +
-               this->vector[Y] * this->vector[Y] +
-               this->vector[Z] * this->vector[Z];
-    }
+    float squareLength() const;
 
     /*!
      * \brief Vector's component selector.
@@ -232,10 +168,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z constants as indices.
      */
-    float get(int index) const {
-        assert(index >= X && index <= Z);
-        return this->vector[index];
-    }
+    float get(int index) const;
 
     /*!
      * \brief Vector's component mutator.
@@ -243,18 +176,13 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z constants as indices.
      */
-    void set(int index, float value) {
-        assert(index >= X && index <= Z);
-        this->vector[index] = value;
-    }
+    void set(int index, float value);
 
     /*!
      * \brief Vector's data accessor.
      * \return Vector's data pointer.
      */
-    const float* data() const  {
-        return (float*)&this->vector;
-    }
+    const float* data() const;
 
 private:
     float vector[3];

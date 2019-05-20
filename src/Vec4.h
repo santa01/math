@@ -23,12 +23,11 @@
 #ifndef VEC4_H
 #define VEC4_H
 
-#include <Vec3.h>
 #include <Platform.h>
-#include <cmath>
-#include <cassert>
 
 namespace Math {
+
+class Vec3;
 
 /*!
  * \brief Four component vector.
@@ -52,12 +51,7 @@ public:
      * \brief Default constructor.
      * \details Constructs a unit vector initializing every but W component with zero.
      */
-    Vec4() {
-        this->vector[X] = 0.0f;
-        this->vector[Y] = 0.0f;
-        this->vector[Z] = 0.0f;
-        this->vector[W] = 1.0f;
-    }
+    Vec4();
 
     /*!
      * \brief Per-component constructor.
@@ -67,12 +61,7 @@ public:
      * \param z Z component.
      * \param w W component.
      */
-    Vec4(float x, float y, float z, float w) {
-        this->vector[X] = x;
-        this->vector[Y] = y;
-        this->vector[Z] = z;
-        this->vector[W] = w;
-    }
+    Vec4(float x, float y, float z, float w);
 
     /*!
      * \brief Vec3-based constructor.
@@ -81,42 +70,28 @@ public:
      * \param vector Source three component vector.
      * \param w W component.
      */
-    Vec4(const Vec3& vector, float w) {
-        this->vector[X] = vector.get(Vec3::X);
-        this->vector[Y] = vector.get(Vec3::Y);
-        this->vector[Z] = vector.get(Vec3::Z);
-        this->vector[W] = w;
-    }
+    Vec4(const Vec3& vector, float w);
 
     /*!
      * \brief Vectors difference.
      * \param vector Substructed vector.
      * \return Difference vector.
      */
-    Vec4 operator -(const Vec4& vector) const {
-        Vec4 me(*this);
-        return me -= vector;
-    }
+    Vec4 operator -(const Vec4& vector) const;
 
     /*!
      * \brief Vectors addition.
      * \param vector Summand vector.
      * \return Sum vector.
      */
-    Vec4 operator +(const Vec4& vector) const {
-        Vec4 me(*this);
-        return me += vector;
-    }
+    Vec4 operator +(const Vec4& vector) const;
 
     /*!
      * \brief Vector byt scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
-    Vec4 operator *(float scalar) const {
-        Vec4 me(*this);
-        return me *= scalar;
-    }
+    Vec4 operator *(float scalar) const;
 
     /*!
      * \brief Vector substruction.
@@ -124,13 +99,7 @@ public:
      * \return Difference vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator -=(const Vec4& vector) {
-        this->vector[X] -= vector.get(X);
-        this->vector[Y] -= vector.get(Y);
-        this->vector[Z] -= vector.get(Z);
-        this->vector[W] -= vector.get(W);
-        return *this;
-    }
+    Vec4& operator -=(const Vec4& vector);
 
     /*!
      * \brief Vector addition.
@@ -138,13 +107,7 @@ public:
      * \return Sum vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator +=(const Vec4& vector) {
-        this->vector[X] += vector.get(X);
-        this->vector[Y] += vector.get(Y);
-        this->vector[Z] += vector.get(Z);
-        this->vector[W] += vector.get(W);
-        return *this;
-    }
+    Vec4& operator +=(const Vec4& vector);
 
     /*!
      * \brief Scalar multiplication.
@@ -152,58 +115,35 @@ public:
      * \return Product vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator *=(float scalar) {
-        this->vector[X] *= scalar;
-        this->vector[Y] *= scalar;
-        this->vector[Z] *= scalar;
-        this->vector[W] *= scalar;
-        return *this;
-    }
+    Vec4& operator *=(float scalar);
 
     /*!
      * \brief Vectors equalty check.
      * \param vector Compared vector.
      * \return true if vectors are equal, false otherwise.
      */
-    bool operator ==(const Vec4& vector) const {
-        return (this->vector[X] == vector.get(X)) &&
-               (this->vector[Y] == vector.get(Y)) &&
-               (this->vector[Z] == vector.get(Z)) &&
-               (this->vector[W] == vector.get(W));
-    }
+    bool operator ==(const Vec4& vector) const;
 
     /*!
      * \brief Vectors inequality check.
      * \param vector Compared vector.
      * \return false if vectors are equal, true otherwise.
      */
-    bool operator !=(const Vec4& vector) const {
-        return !(*this == vector);
-    }
+    bool operator !=(const Vec4& vector) const;
 
     /*!
      * \brief Vector inversion.
      * \return Inverted vector.
      * \note Method has a side-effect.
      */
-    Vec4 operator -() const {
-        return Vec4(-this->vector[X],
-                    -this->vector[Y],
-                    -this->vector[Z],
-                    -this->vector[W]);
-    }
+    Vec4 operator -() const;
 
     /*!
      * \brief Dot product calculation.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
-    float dot(const Vec4& vector) const {
-        return this->vector[X] * vector.get(X) +
-               this->vector[Y] * vector.get(Y) +
-               this->vector[Z] * vector.get(Z) +
-               this->vector[W] * vector.get(W);
-    }
+    float dot(const Vec4& vector) const;
 
     /*!
      * \brief Vector's component selector.
@@ -211,10 +151,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    float get(int index) const {
-        assert(index >= X && index <= W);
-        return this->vector[index];
-    }
+    float get(int index) const;
 
     /*!
      * \brief Vector's component mutator.
@@ -222,27 +159,20 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    void set(int index, float value) {
-        assert(index >= X && index <= W);
-        this->vector[index] = value;
-    }
+    void set(int index, float value);
 
     /*!
      * \brief Vector's data accessor.
      * \return Vector's data pointer.
      */
-    const float* data() const  {
-        return (float*)&this->vector;
-    }
+    const float* data() const;
 
     /*!
      * \brief Vec3 vector extraction.
      * \details Composes Vec3 from x, y, z Vec4 components.
      * \return Three dimentional vector.
      */
-    Vec3 extractVec3() const {
-        return Vec3(this->vector[X], this->vector[Y], this->vector[Z]);
-    }
+    Vec3 extractVec3() const;
 
 private:
     float vector[4];

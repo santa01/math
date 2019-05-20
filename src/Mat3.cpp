@@ -21,8 +21,112 @@
  */
 
 #include <Mat3.h>
+#include <Vec3.h>
+#include <cmath>
+#include <cassert>
+#include <algorithm>
 
 namespace Math {
+
+Mat3::Mat3() {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            this->matrix[i][j] = 0.0f;
+        }
+    }
+
+    this->matrix[0][0] = 1.0f;
+    this->matrix[1][1] = 1.0f;
+    this->matrix[2][2] = 1.0f;
+}
+
+Mat3 Mat3::operator *(const Mat3& matrix) const {
+    Mat3 result;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.set(i, j, this->matrix[i][0] * matrix.get(0, j) +
+                             this->matrix[i][1] * matrix.get(1, j) +
+                             this->matrix[i][2] * matrix.get(2, j));
+        }
+    }
+
+    return result;
+}
+
+Vec3 Mat3::operator *(const Vec3& vector) const {
+    Vec3 result;
+
+    for (int i = 0; i < 3; i++) {
+        result.set(i, this->matrix[i][0] * vector.get(Vec3::X) +
+                      this->matrix[i][1] * vector.get(Vec3::Y) +
+                      this->matrix[i][2] * vector.get(Vec3::Z));
+    }
+
+    return result;
+}
+
+Mat3 Mat3::operator *(float scalar) const {
+    Mat3 result;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.set(i, j, this->matrix[i][j] * scalar);
+        }
+    }
+
+    return result;
+}
+
+Mat3 Mat3::operator +(const Mat3& matrix) const {
+    Mat3 result;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.set(i, j, this->matrix[i][j] + matrix.get(i, j));
+        }
+    }
+
+    return result;
+}
+
+Mat3 Mat3::operator -(const Mat3& matrix) const {
+    Mat3 result;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.set(i, j, this->matrix[i][j] - matrix.get(i, j));
+        }
+    }
+
+    return result;
+}
+
+bool Mat3::operator ==(const Mat3& matrix) const {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (this->matrix[i][j] != matrix.get(i, j)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Mat3::operator !=(const Mat3& matrix) const {
+    return !(*this == matrix);
+}
+
+Mat3& Mat3::transpose() {
+    for (int i = 0; i < 2; i++) {
+        for (int j = i + 1; j < 3; j++) {
+            std::swap(this->matrix[j][i], this->matrix[i][j]);
+        }
+    }
+
+    return *this;
+}
 
 void Mat3::decompose(Mat3& lower, Mat3& upper) const {
     for (int i = 0; i < 3; i++) {
@@ -77,6 +181,50 @@ Mat3& Mat3::invert() {
     }
 
     return *this;
+}
+
+Vec3 Mat3::solveL(const Vec3& absolute) const {
+    Vec3 solution;
+
+    for (int i = 0; i < 3; i++) {
+        solution.set(i, absolute.get(i));
+        for (int j = 0; j < i; j++) {
+            solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
+        }
+        solution.set(i, solution.get(i) / this->matrix[i][i]);
+    }
+
+    return solution;
+}
+
+Vec3 Mat3::solveU(const Vec3& absolute) const {
+    Vec3 solution;
+
+    for (int i = 2; i > -1; i--) {
+        solution.set(i, absolute.get(i));
+        for (int j = 2; j > i; j--) {
+            solution.set(i, solution.get(i) - this->matrix[i][j] * solution.get(j));
+        }
+        solution.set(i, solution.get(i) / this->matrix[i][i]);
+    }
+
+    return solution;
+}
+
+float Mat3::get(int row, int column) const {
+    assert(row >= 0 && row <= 2);
+    assert(column >= 0 && column <= 2);
+    return this->matrix[row][column];
+}
+
+void Mat3::set(int row, int column, float value) {
+    assert(row >= 0 && row <= 2);
+    assert(column >= 0 && column <= 2);
+    this->matrix[row][column] = value;
+}
+
+const float* Mat3::data() const {
+    return (float*)&this->matrix;
 }
 
 }  // namespace Math

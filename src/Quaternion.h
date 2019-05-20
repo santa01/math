@@ -23,13 +23,12 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include <Vec3.h>
-#include <Mat4.h>
 #include <Platform.h>
-#include <cmath>
-#include <cassert>
 
 namespace Math {
+
+class Vec3;
+class Mat4;
 
 /*!
  * \brief %Quaternion representation.
@@ -51,12 +50,7 @@ public:
      * \brief Default constructor.
      * \details Constructs a unit quaternion initializing every but W component with zero.
      */
-    Quaternion() {
-        this->vector[X] = 0.0f;
-        this->vector[Y] = 0.0f;
-        this->vector[Z] = 0.0f;
-        this->vector[W] = 1.0f;
-    }
+    Quaternion();
 
     /*!
      * \brief Per-component constructor.
@@ -66,12 +60,7 @@ public:
      * \param z Z component.
      * \param w W component.
      */
-    Quaternion(float x, float y, float z, float w) {
-        this->vector[X] = x;
-        this->vector[Y] = y;
-        this->vector[Z] = z;
-        this->vector[W] = w;
-    }
+    Quaternion(float x, float y, float z, float w);
 
     /*!
      * \brief Axis-angle based constructor.
@@ -79,14 +68,7 @@ public:
      * \param axis Rotation axis vector.
      * \param angle Rotation angle in radians.
      */
-    Quaternion(const Vec3& axis, float angle) {
-        float sinAngle = sinf(angle / 2);
-
-        this->vector[X] = axis.get(Vec3::X) * sinAngle;
-        this->vector[Y] = axis.get(Vec3::Y) * sinAngle;
-        this->vector[Z] = axis.get(Vec3::Z) * sinAngle;
-        this->vector[W] = cosf(angle / 2);
-    }
+    Quaternion(const Vec3& axis, float angle);
 
     /*!
      * \brief Quaternions multiplication.
@@ -100,25 +82,13 @@ public:
      * \return Normalized quaternion.
      * \note Method has a side-effect.
      */
-    Quaternion& normalize() {
-        float length = this->length();
-        this->vector[X] /= length;
-        this->vector[Y] /= length;
-        this->vector[Z] /= length;
-        this->vector[W] /= length;
-        return *this;
-    }
+    Quaternion& normalize();
 
     /*!
      * \brief %Quaternion's length calculation.
      * \return %Quaternion length.
      */
-    float length() const {
-        return sqrtf(this->vector[X] * this->vector[X] +
-                     this->vector[Y] * this->vector[Y] +
-                     this->vector[Z] * this->vector[Z] +
-                     this->vector[W] * this->vector[W]);
-    }
+    float length() const;
 
     /*!
      * \brief %Quaternion's component selector.
@@ -126,10 +96,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    float get(int index) const {
-        assert(index >= X && index <= W);
-        return this->vector[index];
-    }
+    float get(int index) const;
 
     /*!
      * \brief %Quaternion's component mutator.
@@ -137,10 +104,7 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    void set(int index, float value) {
-        assert(index >= X && index <= W);
-        this->vector[index] = value;
-    }
+    void set(int index, float value);
 
     /*!
      * \brief Mat4 matrix extraction.
@@ -156,13 +120,7 @@ public:
      * \param yAngle Rotation angle around Y axis.
      * \param zAngle Rotation angle around Z axis.
      */
-    void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const {
-        xAngle = atan2f(2 * (this->vector[X] * this->vector[W] - this->vector[Y] * this->vector[Z]),
-                        1 - 2 * (this->vector[X] * this->vector[X] - this->vector[Z] * this->vector[Z]));
-        yAngle = atan2f(2 * (this->vector[Y] * this->vector[W] - this->vector[X] * this->vector[Z]),
-                        1 - 2 * (this->vector[Y] * this->vector[Y] - this->vector[Z] * this->vector[Z]));
-        zAngle = asinf(2 * (this->vector[X] * this->vector[Y] + this->vector[Z] * this->vector[W]));
-    }
+    void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const;
 
 private:
     float vector[4];

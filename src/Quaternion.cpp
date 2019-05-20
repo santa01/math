@@ -21,8 +21,36 @@
  */
 
 #include <Quaternion.h>
+#include <Vec3.h>
+#include <Mat4.h>
+#include <Platform.h>
+#include <cmath>
+#include <cassert>
 
 namespace Math {
+
+Quaternion::Quaternion() {
+    this->vector[X] = 0.0f;
+    this->vector[Y] = 0.0f;
+    this->vector[Z] = 0.0f;
+    this->vector[W] = 1.0f;
+}
+
+Quaternion::Quaternion(float x, float y, float z, float w) {
+    this->vector[X] = x;
+    this->vector[Y] = y;
+    this->vector[Z] = z;
+    this->vector[W] = w;
+}
+
+Quaternion::Quaternion(const Vec3& axis, float angle) {
+    float sinAngle = sinf(angle / 2);
+
+    this->vector[X] = axis.get(Vec3::X) * sinAngle;
+    this->vector[Y] = axis.get(Vec3::Y) * sinAngle;
+    this->vector[Z] = axis.get(Vec3::Z) * sinAngle;
+    this->vector[W] = cosf(angle / 2);
+}
 
 Quaternion Quaternion::operator *(const Quaternion& quaternion) const {
     Quaternion result;
@@ -51,6 +79,32 @@ Quaternion Quaternion::operator *(const Quaternion& quaternion) const {
     return result;
 }
 
+Quaternion& Quaternion::normalize() {
+    float length = this->length();
+    this->vector[X] /= length;
+    this->vector[Y] /= length;
+    this->vector[Z] /= length;
+    this->vector[W] /= length;
+    return *this;
+}
+
+float Quaternion::length() const {
+    return sqrtf(this->vector[X] * this->vector[X] +
+                 this->vector[Y] * this->vector[Y] +
+                 this->vector[Z] * this->vector[Z] +
+                 this->vector[W] * this->vector[W]);
+}
+
+float Quaternion::get(int index) const {
+    assert(index >= X && index <= W);
+    return this->vector[index];
+}
+
+void Quaternion::set(int index, float value) {
+    assert(index >= X && index <= W);
+    this->vector[index] = value;
+}
+
 Mat4 Quaternion::extractMat4() const {
     Mat4 result;
 
@@ -76,6 +130,14 @@ Mat4 Quaternion::extractMat4() const {
                          2 * this->vector[Y] * this->vector[Y]);
 
     return result;
+}
+
+void Quaternion::extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const {
+    xAngle = atan2f(2 * (this->vector[X] * this->vector[W] - this->vector[Y] * this->vector[Z]),
+                    1 - 2 * (this->vector[X] * this->vector[X] - this->vector[Z] * this->vector[Z]));
+    yAngle = atan2f(2 * (this->vector[Y] * this->vector[W] - this->vector[X] * this->vector[Z]),
+                    1 - 2 * (this->vector[Y] * this->vector[Y] - this->vector[Z] * this->vector[Z]));
+    zAngle = asinf(2 * (this->vector[X] * this->vector[Y] + this->vector[Z] * this->vector[W]));
 }
 
 }  // namespace Math
