@@ -24,6 +24,7 @@
 #define VEC4_H
 
 #include <Vec3.h>
+#include <Platform.h>
 #include <cmath>
 #include <cassert>
 
@@ -36,7 +37,7 @@ namespace Math {
  *          * vector-scalar multiplication (both one and two operand);
  *          * dot product calculation.
  */
-class Vec4 {
+class LIBRARY_EXPORT Vec4 {
 public:
     enum {
         X = 0,  /*!< X component index. */

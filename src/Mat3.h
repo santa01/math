@@ -24,6 +24,7 @@
 #define MAT3_H
 
 #include <Vec3.h>
+#include <Platform.h>
 #include <cmath>
 #include <cassert>
 #include <algorithm>
@@ -37,7 +38,7 @@ namespace Math {
  *          * matrix-vector multiplication;
  *          * transposition, LU decomposition, inversion.
  */
-class Mat3 {
+class LIBRARY_EXPORT Mat3 {
 public:
     /*!
      * \brief Default constructor.

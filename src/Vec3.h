@@ -23,6 +23,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <Platform.h>
 #include <cmath>
 #include <cassert>
 
@@ -36,7 +37,7 @@ namespace Math {
  *          * dot and cross product, normalization;
  *          * length, square length calculation.
  */
-class Vec3 {
+class LIBRARY_EXPORT Vec3 {
 public:
     enum {
         X = 0,  /*!< X component index. */

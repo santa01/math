@@ -25,6 +25,7 @@
 
 #include <Vec3.h>
 #include <Mat4.h>
+#include <Platform.h>
 #include <cmath>
 #include <cassert>
 
@@ -37,7 +38,7 @@ namespace Math {
  *          * normalization;
  *          * euler angles and Mat4 rotation matrix extraction.
  */
-class Quaternion {
+class LIBRARY_EXPORT Quaternion {
 public:
     enum {
         X = 0,  /*!< X component index. */
