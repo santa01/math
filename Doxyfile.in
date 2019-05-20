@@ -236,8 +236,6 @@ MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 GENERATE_XML           = NO
 XML_OUTPUT             = xml
-XML_SCHEMA             =
-XML_DTD                =
 XML_PROGRAMLISTING     = YES
 
 #---------------------------------------------------------------------------
@@ -307,7 +305,7 @@ GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
-DOT_PATH               =
+DOT_PATH               = "@DOXYGEN_DOT_EXECUTABLE@"
 DOTFILE_DIRS           =
 MSCFILE_DIRS           =
 DOT_GRAPH_MAX_NODES    = 50

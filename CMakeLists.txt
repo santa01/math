@@ -20,28 +20,8 @@
 # SOFTWARE.
 #
 
-cmake_minimum_required (VERSION 2.8.9)
+cmake_minimum_required (VERSION 3.1)
 project (MATH)
-
-if (CMAKE_COMPILER_IS_GNUCC)
-    execute_process (COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
-                     OUTPUT_VARIABLE GCC_VERSION)
-    string (STRIP ${GCC_VERSION} GCC_VERSION)
-endif ()
-
-if (DEFINED GCC_VERSION AND GCC_VERSION VERSION_GREATER 4.7.0)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=gnu++11")
-    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
-    set (CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -Os")
-    set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -g -O3")
-else ()
-    message (FATAL_ERROR "GCC 4.7.0 or higher is required!")
-endif ()
-
-file (GLOB_RECURSE MATH_SOURCES src/*.cpp)
-file (GLOB_RECURSE MATH_HEADERS src/*.h)
-include_directories (src)
 
 set (MATH_NAME Math)
 set (MATH_DESCRIPTION "Discrete math library")
@@ -50,33 +30,52 @@ set (MATH_VERSION 0.1.6)
 set (MATH_LIBRARY math)
 set (MATH_STATIC ${MATH_LIBRARY}-static)
 set (MATH_SHARED ${MATH_LIBRARY}-shared)
+
 set (MATH_DOCS OFF CACHE BOOL "Build HTML documentation")
 
-configure_file (math.pc.in math.pc @ONLY)
-install (FILES ${PROJECT_BINARY_DIR}/math.pc DESTINATION lib/pkgconfig)
-
 if (MATH_DOCS)
-    find_package (Doxygen)
-    if (DOXYGEN_FOUND)
-        configure_file (Doxyfile.in Doxyfile @ONLY)
-        install (DIRECTORY ${PROJECT_BINARY_DIR}/html
-                 DESTINATION share/doc/${MATH_LIBRARY}-${MATH_VERSION})
-        add_custom_target (doxygen ALL doxygen)
-    else ()
-        message(FATAL_ERROR "Failed to locate doxygen!")
-    endif ()
+    find_package (Doxygen REQUIRED dot)
+    add_custom_target (math-docs ALL ${DOXYGEN_EXECUTABLE})
 endif ()
 
+file (GLOB_RECURSE MATH_SOURCES src/*.cpp)
+file (GLOB_RECURSE MATH_HEADERS src/*.h)
+include_directories (src)
+
 add_library (${MATH_LIBRARY} OBJECT ${MATH_SOURCES})
+set_target_properties (${MATH_LIBRARY} PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+    POSITION_INDEPENDENT_CODE YES
+)
+target_compile_options (${MATH_LIBRARY} PUBLIC
+    $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -pedantic>
+    $<$<CXX_COMPILER_ID:MSVC>:/WX>
+)
+
 add_library (${MATH_STATIC} STATIC $<TARGET_OBJECTS:${MATH_LIBRARY}>)
 add_library (${MATH_SHARED} SHARED $<TARGET_OBJECTS:${MATH_LIBRARY}>)
+set_target_properties (${MATH_SHARED} PROPERTIES VERSION ${MATH_VERSION} SOVERSION ${MATH_VERSION})
 
-# Required to reuse OBJECT for SHARED target, cmake version 2.8.9
-set_property (TARGET ${MATH_LIBRARY} PROPERTY POSITION_INDEPENDENT_CODE 1)
-set_target_properties (${MATH_STATIC} ${MATH_SHARED} PROPERTIES
-                       OUTPUT_NAME ${MATH_LIBRARY})
-set_target_properties (${MATH_SHARED} PROPERTIES
-                       VERSION ${MATH_VERSION} SOVERSION ${MATH_VERSION})
+if (WIN32)
+    # Dedicated library names for Win32 platform (dynamic library target outputs .lib as well)
+    set_target_properties (${MATH_STATIC} PROPERTIES OUTPUT_NAME ${MATH_STATIC})
+    set_target_properties (${MATH_SHARED} PROPERTIES OUTPUT_NAME ${MATH_SHARED})
+elseif (UNIX)
+    set_target_properties (${MATH_STATIC} ${MATH_SHARED} PROPERTIES OUTPUT_NAME ${MATH_LIBRARY})
+endif ()
 
 install (TARGETS ${MATH_STATIC} ${MATH_SHARED} DESTINATION lib)
 install (FILES ${MATH_HEADERS} DESTINATION include/${MATH_LIBRARY})
+
+if (UNIX)
+    configure_file (math.pc.in math.pc @ONLY)
+    install (FILES ${PROJECT_BINARY_DIR}/math.pc DESTINATION lib/pkgconfig)
+endif ()
+
+if (DOXYGEN_FOUND)
+    configure_file (Doxyfile.in Doxyfile @ONLY)
+    install (DIRECTORY ${PROJECT_BINARY_DIR}/html
+             DESTINATION $<IF:$<BOOL:UNIX>,share/doc/${MATH_LIBRARY}-${MATH_VERSION},docs>)
+endif ()
