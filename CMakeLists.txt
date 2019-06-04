@@ -20,7 +20,7 @@
 # SOFTWARE.
 #
 
-cmake_minimum_required (VERSION 3.1)
+cmake_minimum_required (VERSION 3.3)
 project (MATH)
 
 set (MATH_NAME Math)
@@ -35,7 +35,7 @@ set (MATH_DOCS OFF CACHE BOOL "Build HTML documentation")
 
 if (MATH_DOCS)
     find_package (Doxygen REQUIRED dot)
-    add_custom_target (math-docs ALL ${DOXYGEN_EXECUTABLE})
+    add_custom_target (${MATH_LIBRARY}-docs ALL ${DOXYGEN_EXECUTABLE})
 endif ()
 
 file (GLOB_RECURSE MATH_SOURCES src/*.cpp)
