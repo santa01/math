@@ -23,7 +23,7 @@
 #ifndef MAT4_H
 #define MAT4_H
 
-#include <Platform.h>
+#include <MathApi.h>
 
 namespace Math {
 
@@ -37,68 +37,68 @@ class Vec4;
  *          * matrix-vector multiplication;
  *          * transposition, LU decomposition, inversion.
  */
-class LIBRARY_EXPORT Mat4 {
+class Mat4 {
 public:
     /*!
      * \brief Default constructor.
      * \details Constructs the identity matrix.
      */
-    Mat4();
+    MATH_API Mat4();
 
     /*!
      * \brief Matrices multiplication.
      * \param matrix Matrix multiplier.
      * \return Product matrix.
      */
-    Mat4 operator *(const Mat4& matrix) const;
+    MATH_API Mat4 operator *(const Mat4& matrix) const;
 
     /*!
      * \brief Matrix by vector multiplication.
      * \param vector Vector multiplier.
      * \return Product vector.
      */
-    Vec4 operator *(const Vec4& vector) const;
+    MATH_API Vec4 operator *(const Vec4& vector) const;
 
     /*!
      * \brief Matrix by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product matrix.
      */
-    Mat4 operator *(float scalar) const;
+    MATH_API Mat4 operator *(float scalar) const;
 
     /*!
      * \brief Matrices addition.
      * \param matrix Summand matrix.
      * \return Sum matrix.
      */
-    Mat4 operator +(const Mat4& matrix) const;
+    MATH_API Mat4 operator +(const Mat4& matrix) const;
     /*!
      * \brief Matrices substraction.
      * \param matrix Substracted matrix.
      * \return Difference matrix.
      */
-    Mat4 operator -(const Mat4& matrix) const;
+    MATH_API Mat4 operator -(const Mat4& matrix) const;
 
     /*!
      * \brief Matrices equalty check.
      * \param matrix Compared matrix.
      * \return true if matrices are equal, false otherwise.
      */
-    bool operator ==(const Mat4& matrix) const;
+    MATH_API bool operator ==(const Mat4& matrix) const;
 
     /*!
      * \brief Matrices inequalty check.
      * \param matrix Compared matrix.
      * \return false if matrices are equal, true otherwise.
      */
-    bool operator !=(const Mat4& matrix) const;
+    MATH_API bool operator !=(const Mat4& matrix) const;
 
     /*!
      * \brief Matrix transposition.
      * \return Transposed matrix.
      * \note Method has a side-effect.
      */
-    Mat4& transpose();
+    MATH_API Mat4& transpose();
 
     /*!
      * \brief Matrix LU decomposition.
@@ -110,7 +110,7 @@ public:
      * \param lower Lower triangular matrix.
      * \param upper Upper triangular matrix.
      */
-    void decompose(Mat4& lower, Mat4& upper) const;
+    MATH_API void decompose(Mat4& lower, Mat4& upper) const;
 
     /*!
      * \brief Matrix inversion.
@@ -125,7 +125,7 @@ public:
      *
      * \return Inverted matrix.
      */
-    Mat4& invert();
+    MATH_API Mat4& invert();
 
     /*!
      * \brief Solve matrix equation with a lower triangular matrix.
@@ -136,7 +136,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec4 solveL(const Vec4& absolute) const;
+    MATH_API Vec4 solveL(const Vec4& absolute) const;
 
     /*!
      * \brief Solve matrix equation with an upper triangular matrix.
@@ -147,7 +147,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec4 solveU(const Vec4& absolute) const;
+    MATH_API Vec4 solveU(const Vec4& absolute) const;
 
     /*!
      * \brief Matrix's element selector.
@@ -155,7 +155,7 @@ public:
      * \param column Element's column.
      * \return Element's value.
      */
-    float get(int row, int column) const;
+    MATH_API float get(int row, int column) const;
 
     /*!
      * \brief Matrix's element mutator.
@@ -163,20 +163,20 @@ public:
      * \param column Element's column.
      * \param value Element's new value.
      */
-    void set(int row, int column, float value);
+    MATH_API void set(int row, int column, float value);
 
     /*!
      * \brief Matrix's data accessor.
      * \return Matrix's data pointer.
      */
-    const float* data() const;
+    MATH_API const float* data() const;
 
     /*!
      * \brief Mat3 matrix extraction.
      * \details Composes Mat3 from first three rows and columns.
      * \return 3x3 two dimetional matrix.
      */
-    Mat3 extractMat3() const;
+    MATH_API Mat3 extractMat3() const;
 
 private:
     float matrix[4][4];

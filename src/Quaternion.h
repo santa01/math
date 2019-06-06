@@ -23,7 +23,7 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include <Platform.h>
+#include <MathApi.h>
 
 namespace Math {
 
@@ -37,7 +37,7 @@ class Mat4;
  *          * normalization;
  *          * euler angles and Mat4 rotation matrix extraction.
  */
-class LIBRARY_EXPORT Quaternion {
+class Quaternion {
 public:
     enum {
         X = 0,  /*!< X component index. */
@@ -50,7 +50,7 @@ public:
      * \brief Default constructor.
      * \details Constructs a unit quaternion initializing every but W component with zero.
      */
-    Quaternion();
+    MATH_API Quaternion();
 
     /*!
      * \brief Per-component constructor.
@@ -60,7 +60,7 @@ public:
      * \param z Z component.
      * \param w W component.
      */
-    Quaternion(float x, float y, float z, float w);
+    MATH_API Quaternion(float x, float y, float z, float w);
 
     /*!
      * \brief Axis-angle based constructor.
@@ -68,27 +68,27 @@ public:
      * \param axis Rotation axis vector.
      * \param angle Rotation angle in radians.
      */
-    Quaternion(const Vec3& axis, float angle);
+    MATH_API Quaternion(const Vec3& axis, float angle);
 
     /*!
      * \brief Quaternions multiplication.
      * \param quaternion %Quaternion multiplier.
      * \return Product quaternion.
      */
-    Quaternion operator *(const Quaternion& quaternion) const;
+    MATH_API Quaternion operator *(const Quaternion& quaternion) const;
 
     /*!
      * \brief %Quaternion normalization.
      * \return Normalized quaternion.
      * \note Method has a side-effect.
      */
-    Quaternion& normalize();
+    MATH_API Quaternion& normalize();
 
     /*!
      * \brief %Quaternion's length calculation.
      * \return %Quaternion length.
      */
-    float length() const;
+    MATH_API float length() const;
 
     /*!
      * \brief %Quaternion's component selector.
@@ -96,7 +96,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    float get(int index) const;
+    MATH_API float get(int index) const;
 
     /*!
      * \brief %Quaternion's component mutator.
@@ -104,14 +104,14 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    void set(int index, float value);
+    MATH_API void set(int index, float value);
 
     /*!
      * \brief Mat4 matrix extraction.
      * \details Composes Mat4 rotation matrix.
      * \return 4x4 two dimetional matrix.
      */
-    Mat4 extractMat4() const;
+    MATH_API Mat4 extractMat4() const;
 
     /*!
      * \brief Euler angles extraction.
@@ -120,7 +120,7 @@ public:
      * \param yAngle Rotation angle around Y axis.
      * \param zAngle Rotation angle around Z axis.
      */
-    void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const;
+    MATH_API void extractEulerAngles(float& xAngle, float& yAngle, float& zAngle) const;
 
 private:
     float vector[4];

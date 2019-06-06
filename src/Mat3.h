@@ -23,7 +23,7 @@
 #ifndef MAT3_H
 #define MAT3_H
 
-#include <Platform.h>
+#include <MathApi.h>
 
 namespace Math {
 
@@ -36,69 +36,69 @@ class Vec3;
  *          * matrix-vector multiplication;
  *          * transposition, LU decomposition, inversion.
  */
-class LIBRARY_EXPORT Mat3 {
+class Mat3 {
 public:
     /*!
      * \brief Default constructor.
      * \details Constructs the identity matrix.
      */
-    Mat3();
+    MATH_API Mat3();
 
     /*!
      * \brief Matrices multiplication.
      * \param matrix Matrix multiplier.
      * \return Product matrix.
      */
-    Mat3 operator *(const Mat3& matrix) const;
+    MATH_API Mat3 operator *(const Mat3& matrix) const;
 
     /*!
      * \brief Matrix by vector multiplication.
      * \param vector Vector multiplier.
      * \return Product vector.
      */
-    Vec3 operator *(const Vec3& vector) const;
+    MATH_API Vec3 operator *(const Vec3& vector) const;
 
     /*!
      * \brief Matrix by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product matrix.
      */
-    Mat3 operator *(float scalar) const;
+    MATH_API Mat3 operator *(float scalar) const;
 
     /*!
      * \brief Matrices addition.
      * \param matrix Summand matrix.
      * \return Sum matrix.
      */
-    Mat3 operator +(const Mat3& matrix) const;
+    MATH_API Mat3 operator +(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices substraction.
      * \param matrix Substracted matrix.
      * \return Difference matrix.
      */
-    Mat3 operator -(const Mat3& matrix) const;
+    MATH_API Mat3 operator -(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices equalty check.
      * \param matrix Compared matrix.
      * \return true if matrices are equal, false otherwise.
      */
-    bool operator ==(const Mat3& matrix) const;
+    MATH_API bool operator ==(const Mat3& matrix) const;
 
     /*!
      * \brief Matrices inequalty check.
      * \param matrix Compared matrix.
      * \return false if matrices are equal, true otherwise.
      */
-    bool operator !=(const Mat3& matrix) const;
+    MATH_API bool operator !=(const Mat3& matrix) const;
 
     /*!
      * \brief Matrix transposition.
      * \return Transposed matrix.
      * \note Method has a side-effect.
      */
-    Mat3& transpose();
+    MATH_API Mat3& transpose();
 
     /*!
      * \brief Matrix LU decomposition.
@@ -110,7 +110,7 @@ public:
      * \param lower Lower triangular matrix.
      * \param upper Upper triangular matrix.
      */
-    void decompose(Mat3& lower, Mat3& upper) const;
+    MATH_API void decompose(Mat3& lower, Mat3& upper) const;
 
     /*!
      * \brief Matrix inversion.
@@ -125,7 +125,7 @@ public:
      *
      * \return Inverted matrix.
      */
-    Mat3& invert();
+    MATH_API Mat3& invert();
 
     /*!
      * \brief Solve matrix equation with a lower triangular matrix.
@@ -136,7 +136,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec3 solveL(const Vec3& absolute) const;
+    MATH_API Vec3 solveL(const Vec3& absolute) const;
 
     /*!
      * \brief Solve matrix equation with an upper triangular matrix.
@@ -147,7 +147,7 @@ public:
      * \return Vector of unknown values.
      * \note Matrix is assumed to be triangular, no check is performed.
      */
-    Vec3 solveU(const Vec3& absolute) const;
+    MATH_API Vec3 solveU(const Vec3& absolute) const;
 
     /*!
      * \brief Matrix's element selector.
@@ -155,7 +155,7 @@ public:
      * \param column Element's column.
      * \return Element's value.
      */
-    float get(int row, int column) const;
+    MATH_API float get(int row, int column) const;
 
     /*!
      * \brief Matrix's element mutator.
@@ -163,13 +163,13 @@ public:
      * \param column Element's column.
      * \param value Element's new value.
      */
-    void set(int row, int column, float value);
+    MATH_API void set(int row, int column, float value);
 
     /*!
      * \brief Matrix's data accessor.
      * \return Matrix's data pointer.
      */
-    const float* data() const;
+    MATH_API const float* data() const;
 
 private:
     float matrix[3][3];

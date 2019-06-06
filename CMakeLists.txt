@@ -53,6 +53,7 @@ target_compile_options (${MATH_LIBRARY} PUBLIC
     $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -pedantic>
     $<$<CXX_COMPILER_ID:MSVC>:/WX>
 )
+target_compile_definitions (${MATH_LIBRARY} PUBLIC MATH_EXPORT)
 
 add_library (${MATH_STATIC} STATIC $<TARGET_OBJECTS:${MATH_LIBRARY}>)
 add_library (${MATH_SHARED} SHARED $<TARGET_OBJECTS:${MATH_LIBRARY}>)

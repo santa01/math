@@ -23,7 +23,6 @@
 #include <Quaternion.h>
 #include <Vec3.h>
 #include <Mat4.h>
-#include <Platform.h>
 #include <cmath>
 #include <cassert>
 

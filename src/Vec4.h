@@ -23,7 +23,7 @@
 #ifndef VEC4_H
 #define VEC4_H
 
-#include <Platform.h>
+#include <MathApi.h>
 
 namespace Math {
 
@@ -36,7 +36,7 @@ class Vec3;
  *          * vector-scalar multiplication (both one and two operand);
  *          * dot product calculation.
  */
-class LIBRARY_EXPORT Vec4 {
+class Vec4 {
 public:
     enum {
         X = 0,  /*!< X component index. */
@@ -45,13 +45,13 @@ public:
         W = 3   /*!< W component index. */
     };
 
-    static const Vec4 ZERO;  /*!< Zero length vector. */
+    MATH_API static const Vec4 ZERO;  /*!< Zero length vector. */
 
     /*!
      * \brief Default constructor.
      * \details Constructs a unit vector initializing every but W component with zero.
      */
-    Vec4();
+    MATH_API Vec4();
 
     /*!
      * \brief Per-component constructor.
@@ -61,7 +61,7 @@ public:
      * \param z Z component.
      * \param w W component.
      */
-    Vec4(float x, float y, float z, float w);
+    MATH_API Vec4(float x, float y, float z, float w);
 
     /*!
      * \brief Vec3-based constructor.
@@ -70,28 +70,28 @@ public:
      * \param vector Source three component vector.
      * \param w W component.
      */
-    Vec4(const Vec3& vector, float w);
+    MATH_API Vec4(const Vec3& vector, float w);
 
     /*!
      * \brief Vectors difference.
      * \param vector Substructed vector.
      * \return Difference vector.
      */
-    Vec4 operator -(const Vec4& vector) const;
+    MATH_API Vec4 operator -(const Vec4& vector) const;
 
     /*!
      * \brief Vectors addition.
      * \param vector Summand vector.
      * \return Sum vector.
      */
-    Vec4 operator +(const Vec4& vector) const;
+    MATH_API Vec4 operator +(const Vec4& vector) const;
 
     /*!
      * \brief Vector byt scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
-    Vec4 operator *(float scalar) const;
+    MATH_API Vec4 operator *(float scalar) const;
 
     /*!
      * \brief Vector substruction.
@@ -99,7 +99,7 @@ public:
      * \return Difference vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator -=(const Vec4& vector);
+    MATH_API Vec4& operator -=(const Vec4& vector);
 
     /*!
      * \brief Vector addition.
@@ -107,7 +107,7 @@ public:
      * \return Sum vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator +=(const Vec4& vector);
+    MATH_API Vec4& operator +=(const Vec4& vector);
 
     /*!
      * \brief Scalar multiplication.
@@ -115,35 +115,35 @@ public:
      * \return Product vector.
      * \note Method has a side-effect.
      */
-    Vec4& operator *=(float scalar);
+    MATH_API Vec4& operator *=(float scalar);
 
     /*!
      * \brief Vectors equalty check.
      * \param vector Compared vector.
      * \return true if vectors are equal, false otherwise.
      */
-    bool operator ==(const Vec4& vector) const;
+    MATH_API bool operator ==(const Vec4& vector) const;
 
     /*!
      * \brief Vectors inequality check.
      * \param vector Compared vector.
      * \return false if vectors are equal, true otherwise.
      */
-    bool operator !=(const Vec4& vector) const;
+    MATH_API bool operator !=(const Vec4& vector) const;
 
     /*!
      * \brief Vector inversion.
      * \return Inverted vector.
      * \note Method has a side-effect.
      */
-    Vec4 operator -() const;
+    MATH_API Vec4 operator -() const;
 
     /*!
      * \brief Dot product calculation.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
-    float dot(const Vec4& vector) const;
+    MATH_API float dot(const Vec4& vector) const;
 
     /*!
      * \brief Vector's component selector.
@@ -151,7 +151,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    float get(int index) const;
+    MATH_API float get(int index) const;
 
     /*!
      * \brief Vector's component mutator.
@@ -159,20 +159,20 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z, #W constants as indices.
      */
-    void set(int index, float value);
+    MATH_API void set(int index, float value);
 
     /*!
      * \brief Vector's data accessor.
      * \return Vector's data pointer.
      */
-    const float* data() const;
+    MATH_API const float* data() const;
 
     /*!
      * \brief Vec3 vector extraction.
      * \details Composes Vec3 from x, y, z Vec4 components.
      * \return Three dimentional vector.
      */
-    Vec3 extractVec3() const;
+    MATH_API Vec3 extractVec3() const;
 
 private:
     float vector[4];

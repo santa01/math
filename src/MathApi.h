@@ -20,13 +20,17 @@
  * SOFTWARE.
  */
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#ifndef MATHAPI_H
+#define MATHAPI_H
 
 #if defined(_WIN32)
-#define LIBRARY_EXPORT __declspec(dllexport)
+#ifdef MATH_EXPORT
+#define MATH_API __declspec(dllexport)
+#else
+#define MATH_API __declspec(dllimport)
+#endif
 #elif defined(__linux__)
-#define LIBRARY_EXPORT
+#define MATH_API
 #endif
 
-#endif  // PLATFORM_H
+#endif  // MATHAPI_H

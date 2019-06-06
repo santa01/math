@@ -23,7 +23,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-#include <Platform.h>
+#include <MathApi.h>
 
 namespace Math {
 
@@ -35,7 +35,7 @@ namespace Math {
  *          * dot and cross product, normalization;
  *          * length, square length calculation.
  */
-class LIBRARY_EXPORT Vec3 {
+class Vec3 {
 public:
     enum {
         X = 0,  /*!< X component index. */
@@ -43,16 +43,16 @@ public:
         Z = 2   /*!< Z component index. */
     };
 
-    static const Vec3 UNIT_X;  /*!< X unit vector. */
-    static const Vec3 UNIT_Y;  /*!< Y unit vector. */
-    static const Vec3 UNIT_Z;  /*!< Z unit vector. */
-    static const Vec3 ZERO;    /*!< Zero length vector. */
+    MATH_API static const Vec3 UNIT_X;  /*!< X unit vector. */
+    MATH_API static const Vec3 UNIT_Y;  /*!< Y unit vector. */
+    MATH_API static const Vec3 UNIT_Z;  /*!< Z unit vector. */
+    MATH_API static const Vec3 ZERO;    /*!< Zero length vector. */
 
     /*!
      * \brief Default constructor.
      * \details Constructs zero-length vector.
      */
-    Vec3();
+    MATH_API Vec3();
 
     /*!
      * \brief Per-component constructor.
@@ -61,28 +61,28 @@ public:
      * \param y Y component.
      * \param z Z component.
      */
-    Vec3(float x, float y, float z);
+    MATH_API Vec3(float x, float y, float z);
 
     /*!
      * \brief Vectors substraction.
      * \param vector Substructed vector.
      * \return Difference vector.
      */
-    Vec3 operator -(const Vec3& vector) const;
+    MATH_API Vec3 operator -(const Vec3& vector) const;
 
     /*!
      * \brief Vectors addition.
      * \param vector Summand vector.
      * \return Sum vector.
      */
-    Vec3 operator +(const Vec3& vector) const;
+    MATH_API Vec3 operator +(const Vec3& vector) const;
 
     /*!
      * \brief Vector by scalar multiplication.
      * \param scalar Scalar multiplier.
      * \return Product vector.
      */
-    Vec3 operator *(float scalar) const;
+    MATH_API Vec3 operator *(float scalar) const;
 
     /*!
      * \brief Vector substruction.
@@ -90,7 +90,7 @@ public:
      * \return Difference vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator -=(const Vec3& vector);
+    MATH_API Vec3& operator -=(const Vec3& vector);
 
     /*!
      * \brief Vector addition.
@@ -98,7 +98,7 @@ public:
      * \return Sum vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator +=(const Vec3& vector);
+    MATH_API Vec3& operator +=(const Vec3& vector);
 
     /*!
      * \brief Scalar multiplication.
@@ -106,61 +106,61 @@ public:
      * \return Product vector.
      * \note Method has a side-effect.
      */
-    Vec3& operator *=(float scalar);
+    MATH_API Vec3& operator *=(float scalar);
 
     /*!
      * \brief Vectors equalty check.
      * \param vector Compared vector.
      * \return true if vectors are equal, false otherwise.
      */
-    bool operator ==(const Vec3& vector) const;
+    MATH_API bool operator ==(const Vec3& vector) const;
 
     /*!
      * \brief Vectors inequalty check.
      * \param vector Compared vector.
      * \return false if vectors are equal, true otherwise.
      */
-    bool operator !=(const Vec3& vector) const;
+    MATH_API bool operator !=(const Vec3& vector) const;
 
     /*!
      * \brief Vector inversion.
      * \return Inverted vector.
      * \note Method has a side-effect.
      */
-    Vec3 operator -() const;
+    MATH_API Vec3 operator -() const;
 
     /*!
      * \brief Dot product calculation.
      * \param vector Vector mutliplier.
      * \return Scalar (dot) product.
      */
-    float dot(const Vec3& vector) const;
+    MATH_API float dot(const Vec3& vector) const;
 
     /*!
      * \brief Cross product calculation.
      * \param vector Vector mutliplier.
      * \return Vector (cross) product.
      */
-    Vec3 cross(const Vec3& vector) const;
+    MATH_API Vec3 cross(const Vec3& vector) const;
 
     /*!
      * \brief Vector normalization.
      * \return Normalized (unit) vector.
      * \note Method has a side-effect.
      */
-    Vec3& normalize();
+    MATH_API Vec3& normalize();
 
     /*!
      * \brief Vector's length calculation.
      * \return Vector length.
      */
-    float length() const;
+    MATH_API float length() const;
 
     /*!
      * \brief Vector's square length calculation.
      * \return Vector square length.
      */
-    float squareLength() const;
+    MATH_API float squareLength() const;
 
     /*!
      * \brief Vector's component selector.
@@ -168,7 +168,7 @@ public:
      * \return Component's value.
      * \note You are advised to use #X, #Y, #Z constants as indices.
      */
-    float get(int index) const;
+    MATH_API float get(int index) const;
 
     /*!
      * \brief Vector's component mutator.
@@ -176,13 +176,13 @@ public:
      * \param value Component's new value.
      * \note You are advised to use #X, #Y, #Z constants as indices.
      */
-    void set(int index, float value);
+    MATH_API void set(int index, float value);
 
     /*!
      * \brief Vector's data accessor.
      * \return Vector's data pointer.
      */
-    const float* data() const;
+    MATH_API const float* data() const;
 
 private:
     float vector[3];
