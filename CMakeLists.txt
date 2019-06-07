@@ -50,7 +50,7 @@ set_target_properties (${MATH_LIBRARY} PROPERTIES
     POSITION_INDEPENDENT_CODE YES
 )
 target_compile_options (${MATH_LIBRARY} PUBLIC
-    $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -pedantic>
+    $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Werror -pedantic>
     $<$<CXX_COMPILER_ID:MSVC>:/WX>
 )
 target_compile_definitions (${MATH_LIBRARY} PUBLIC MATH_EXPORT)
