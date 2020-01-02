@@ -64,17 +64,16 @@ Quaternion Quaternion::operator *(const Quaternion& quaternion) const {
                   this->vector[Y] * quaternion.get(Z) -
                   this->vector[Z] * quaternion.get(Y));
 
-    result.set(Y, this->vector[W] * quaternion.get(Y) +
+    result.set(Y, this->vector[W] * quaternion.get(Y) -
+                  this->vector[X] * quaternion.get(Z) +
                   this->vector[Y] * quaternion.get(W) +
-                  this->vector[Z] * quaternion.get(X) -
-                  this->vector[X] * quaternion.get(Z));
+                  this->vector[Z] * quaternion.get(X));
 
     result.set(Z, this->vector[W] * quaternion.get(Z) +
-                  this->vector[Z] * quaternion.get(W) +
                   this->vector[X] * quaternion.get(Y) -
-                  this->vector[Y] * quaternion.get(X));
+                  this->vector[Y] * quaternion.get(X) +
+                  this->vector[Z] * quaternion.get(W));
 
-    result.normalize();
     return result;
 }
 
